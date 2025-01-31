@@ -203,26 +203,26 @@ namespace Exam12_Pu5L.Controllers
 
         public bool CheckLShape((int x, int y) point, Player _player, int _nbRow, int _nbCol, int _howManyAligned)
         {
-            Debug.WriteLine($"Checking L-shape for point: ({point.x}, {point.y})");
+            //Debug.WriteLine($"Checking L-shape for point: ({point.x}, {point.y})");
 
             //--- Clear alignedPoints before starting
             alignedPoints.Clear();
 
             //--- Check for horizontal alignment first
-            Debug.WriteLine("Checking horizontal alignment...heeeeeeere");
+            //Debug.WriteLine("Checking horizontal alignment...heeeeeeere");
             if (CheckHorizontalLine(point, _player, _nbCol, _howManyAligned))
             {
-                Debug.WriteLine($"Horizontal alignment found: {FormatAlignedPoints(alignedPoints)}");
+                //Debug.WriteLine($"Horizontal alignment found: {FormatAlignedPoints(alignedPoints)}");
 
                 if(alignedPoints.Count > 1)
                 {
                     //--- Iterate through each point in the horizontal alignment and check for vertical perpendicular
                     foreach (var alignedPoint in alignedPoints.ToList())
                     {
-                        Debug.WriteLine($"Checking perpendicular for point: ({alignedPoint.X}, {alignedPoint.Y})");
+                        //Debug.WriteLine($"Checking perpendicular for point: ({alignedPoint.X}, {alignedPoint.Y})");
                         if (CheckVerticalPerpendicular(alignedPoint, _player, _nbRow, _howManyAligned - alignedPoints.Count))
                         {
-                            Debug.WriteLine($"L-shape found! Aligned points: {FormatAlignedPoints(alignedPoints)}");
+                            //Debug.WriteLine($"L-shape found! Aligned points: {FormatAlignedPoints(alignedPoints)}");
                             return true;
                         }
                     }
@@ -233,33 +233,33 @@ namespace Exam12_Pu5L.Controllers
             alignedPoints.Clear();
 
             //--- Check for vertical alignment next
-            Debug.WriteLine("Checking vertical alignment...bruhhhhhhhhh");
+            //Debug.WriteLine("Checking vertical alignment...bruhhhhhhhhh");
             if (CheckVerticalLine(point, _player, _nbRow, _howManyAligned))
             {
-                Debug.WriteLine($"Vertical alignment found: {FormatAlignedPoints(alignedPoints)}");
+                //Debug.WriteLine($"Vertical alignment found: {FormatAlignedPoints(alignedPoints)}");
 
                 if (alignedPoints.Count > 1)
                 {
                     // Iterate through each point in the vertical alignment and check for horizontal perpendicular
                     foreach (var alignedPoint in alignedPoints.ToList())
                     {
-                        Debug.WriteLine($"Checking perpendicular for point: ({alignedPoint.X}, {alignedPoint.Y})");
+                        //Debug.WriteLine($"Checking perpendicular for point: ({alignedPoint.X}, {alignedPoint.Y})");
                         if (CheckHorizontalPerpendicular(alignedPoint, _player, _nbCol, _howManyAligned - alignedPoints.Count))
                         {
-                            Debug.WriteLine($"L-shape found! Aligned points: {FormatAlignedPoints(alignedPoints)}");
+                            //Debug.WriteLine($"L-shape found! Aligned points: {FormatAlignedPoints(alignedPoints)}");
                             return true;
                         }
                     }
                 }
             }
 
-            Debug.WriteLine("No L-shape found.");
+            //Debug.WriteLine("No L-shape found.");
             return false;
         }
 
         private bool CheckHorizontalLine((int x, int y) point, Player _player, int _nbCol, int length)
         {
-            Debug.WriteLine($"Checking horizontal line for point: ({point.x}, {point.y})");
+            //Debug.WriteLine($"Checking horizontal line for point: ({point.x}, {point.y})");
 
             int count = 1;
             alignedPoints.Clear();
@@ -272,7 +272,7 @@ namespace Exam12_Pu5L.Controllers
                 {
                     count++;
                     alignedPoints.Add((point.x - i, point.y));
-                    Debug.WriteLine($"Added point to alignedPoints horizontal alignment: ({point.x - i}, {point.y})");
+                    //Debug.WriteLine($"Added point to alignedPoints horizontal alignment: ({point.x - i}, {point.y})");
                 }
                 else break;
             }
@@ -284,18 +284,18 @@ namespace Exam12_Pu5L.Controllers
                 {
                     count++;
                     alignedPoints.Add((point.x + i, point.y));
-                    Debug.WriteLine($"Added point to alignedPoints horizontal alignment: ({point.x + i}, {point.y})");
+                    //Debug.WriteLine($"Added point to alignedPoints horizontal alignment: ({point.x + i}, {point.y})");
                 }
                 else break;
             }
 
-            Debug.WriteLine($"Horizontal alignment count: {count}");
+            //Debug.WriteLine($"Horizontal alignment count: {count}");
             return count < length;
         }
 
         private bool CheckVerticalLine((int x, int y) point, Player _player, int _nbRow, int length)
         {
-            Debug.WriteLine($"Checking vertical line for point: ({point.x}, {point.y})");
+            //Debug.WriteLine($"Checking vertical line for point: ({point.x}, {point.y})");
 
             int count = 1;
             alignedPoints.Clear();
@@ -308,7 +308,7 @@ namespace Exam12_Pu5L.Controllers
                 {
                     count++;
                     alignedPoints.Add((point.x, point.y - i));
-                    Debug.WriteLine($"Added point to alignedPoints vertical alignment: ({point.x}, {point.y - i})");
+                    //Debug.WriteLine($"Added point to alignedPoints vertical alignment: ({point.x}, {point.y - i})");
                 }
                 else break;
             }
@@ -320,18 +320,18 @@ namespace Exam12_Pu5L.Controllers
                 {
                     count++;
                     alignedPoints.Add((point.x, point.y + i));
-                    Debug.WriteLine($"Added point to alignedPoints vertical alignment: ({point.x}, {point.y + i})");
+                    //Debug.WriteLine($"Added point to alignedPoints vertical alignment: ({point.x}, {point.y + i})");
                 }
                 else break;
             }
 
-            Debug.WriteLine($"Vertical alignment count: {count}");
+            //Debug.WriteLine($"Vertical alignment count: {count}");
             return count < length;
         }
 
         private bool CheckHorizontalPerpendicular((int x, int y) point, Player _player, int _nbCol, int length)
         {
-            Debug.WriteLine($"Checking horizontal perpendicular for point: ({point.x}, {point.y})");
+            //Debug.WriteLine($"Checking horizontal perpendicular for point: ({point.x}, {point.y})");
 
             int count = 0;
             var tempPoints = new HashSet<(int X, int Y)>();
@@ -343,7 +343,7 @@ namespace Exam12_Pu5L.Controllers
                 {
                     count++;
                     tempPoints.Add((point.x - i, point.y));
-                    Debug.WriteLine($"Added point to horizontal perpendicular: ({point.x - i}, {point.y})");
+                    //Debug.WriteLine($"Added point to horizontal perpendicular: ({point.x - i}, {point.y})");
                 }
                 else break;
             }
@@ -355,12 +355,12 @@ namespace Exam12_Pu5L.Controllers
                 {
                     count++;
                     tempPoints.Add((point.x + i, point.y));
-                    Debug.WriteLine($"Added point to horizontal perpendicular: ({point.x + i}, {point.y})");
+                    //Debug.WriteLine($"Added point to horizontal perpendicular: ({point.x + i}, {point.y})");
                 }
                 else break;
             }
 
-            Debug.WriteLine($"Horizontal perpendicular count: {count}");
+            //Debug.WriteLine($"Horizontal perpendicular count: {count}");
             if (count >= length)
             {
                 // Add the perpendicular points to alignedPoints
@@ -376,7 +376,7 @@ namespace Exam12_Pu5L.Controllers
 
         private bool CheckVerticalPerpendicular((int x, int y) point, Player _player, int _nbRow, int length)
         {
-            Debug.WriteLine($"Checking vertical perpendicular for point: ({point.x}, {point.y})");
+            //Debug.WriteLine($"Checking vertical perpendicular for point: ({point.x}, {point.y})");
 
             int count = 0;
             var tempPoints = new HashSet<(int X, int Y)>();
@@ -388,7 +388,7 @@ namespace Exam12_Pu5L.Controllers
                 {
                     count++;
                     tempPoints.Add((point.x, point.y - i));
-                    Debug.WriteLine($"Added point to vertical perpendicular: ({point.x}, {point.y - i})");
+                    //Debug.WriteLine($"Added point to vertical perpendicular: ({point.x}, {point.y - i})");
                 }
                 else break;
             }
@@ -400,12 +400,12 @@ namespace Exam12_Pu5L.Controllers
                 {
                     count++;
                     tempPoints.Add((point.x, point.y + i));
-                    Debug.WriteLine($"Added point to vertical perpendicular: ({point.x}, {point.y + i})");
+                    //Debug.WriteLine($"Added point to vertical perpendicular: ({point.x}, {point.y + i})");
                 }
                 else break;
             }
 
-            Debug.WriteLine($"Vertical perpendicular count: {count}");
+            //Debug.WriteLine($"Vertical perpendicular count: {count}");
             if (count >= length)
             {
                 // Add the perpendicular points to alignedPoints
