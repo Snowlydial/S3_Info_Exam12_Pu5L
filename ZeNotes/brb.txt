@@ -1,0 +1,167 @@
+﻿
+        //-----ALIGNEMENT
+        public bool CheckForAlignment(int x, int y, Player _player, int _nbRow, int _nbCol, int _howManyAligned)
+        {
+            if (CheckHorizontal((x, y), _player, _nbRow, _howManyAligned) || CheckVertical((x, y), _player, _nbCol, _howManyAligned) ||
+                CheckDiagonal((x, y), _player, _howManyAligned)) return true;
+            return false;
+        }
+
+        private bool CheckVertical((int x, int y) point, Player _player, int _nbRow, int _howManyAligned)
+        {
+            int count = 1;
+            alignedPoints.Clear();
+            alignedPoints.Add((point.x, point.y));
+
+            for (int i = 1; i <= _howManyAligned - 1 && point.y - i >= 0; i++) {
+                if (_player.Has_point(point.x, point.y - i))
+                {
+                    count++;
+                    alignedPoints.Add((point.x, point.y - i));
+                }
+                else break;
+            }
+
+            if (count >= _howManyAligned) return true;
+            for (int i = 1; i <= _howManyAligned - 1 && point.y + i < _nbRow; i++) {
+                if (_player.Has_point(point.x, point.y + i))
+                {
+                    count++;
+                    alignedPoints.Add((point.x, point.y + i));
+                }
+                else break;
+            }
+
+            return count >= _howManyAligned;
+        }
+
+        private bool CheckHorizontal((int x, int y) point, Player _player, int _nbCol, int _howManyAligned)
+        {
+            int count = 1;
+            alignedPoints.Clear();
+            alignedPoints.Add((point.x, point.y));
+
+            for (int i = 1; i <= _howManyAligned - 1 && point.x - i >= 0; i++) {
+                if (_player.Has_point(point.x - i, point.y))
+                {
+                    count++;
+                    alignedPoints.Add((point.x - i, point.y));
+                }
+                else break;
+            }
+
+            if (count >= _howManyAligned) return true;
+            for (int i = 1; i <= _howManyAligned - 1 && point.x + i < _nbCol; i++) {
+                if (_player.Has_point(point.x + i, point.y))
+                {
+                    count++;
+                    alignedPoints.Add((point.x + i, point.y));
+                }
+                else break;
+            }
+
+            return count >= _howManyAligned;
+        }
+
+        private bool CheckDiagonal((int x, int y) point, Player _player, int _howManyAligned)
+        {
+            //------- Check top-left to bottom-right ↖↘
+            int count = 1;
+            alignedPoints.Clear();
+            alignedPoints.Add((point.x, point.y));
+            // Check top-left diagonal
+            for (int i = 1; i <= _howManyAligned - 1; i++) {
+                if (_player.Has_point(point.x - i, point.y - i))
+                {
+                    count++;
+                    alignedPoints.Add((point.x - i, point.y - i));
+                }
+                else break;
+            }
+
+            // Check bottom-right diagonal
+            for (int i = 1; i <= _howManyAligned - 1; i++) {
+                if (_player.Has_point(point.x + i, point.y + i))
+                {
+                    count++;
+                    alignedPoints.Add((point.x + i, point.y + i));
+                }
+                else break;
+            }
+            if (count >= _howManyAligned) return true;
+
+            //------- Check top-right to bottom-left ↗↙
+            count = 1;
+            alignedPoints.Clear();
+            alignedPoints.Add((point.x, point.y));
+            // Check top-right diagonal
+            for (int i = 1; i <= _howManyAligned - 1; i++) {
+                if (_player.Has_point(point.x - i, point.y + i))
+                {
+                    count++;
+                    alignedPoints.Add((point.x - i, point.y + i));
+                }
+                else break;
+            }
+
+            // Check bottom-left diagonal
+            for (int i = 1; i <= _howManyAligned - 1; i++) {
+                if (_player.Has_point(point.x + i, point.y - i))
+                {
+                    count++;
+                    alignedPoints.Add((point.x + i, point.y - i));
+                }
+                else break;
+            }
+            return count >= _howManyAligned;
+        }
+
+
+        //-----SUGGESTION
+        public (int X, int Y)? FindCorrectMove(Player you, Player opponent, int nbRow, int nbCol, int alignmentNeeded)
+        {
+            alignmentNeeded += 1;
+            // Check each empty cell on the grid
+            for (int x = 0; x < nbCol; x++)
+            {
+                for (int y = 0; y < nbRow; y++)
+                {
+                    if (!you.Has_point(x, y) && !opponent.Has_point(x, y))
+                    {
+                        if (CheckForAlignment(x, y, you, nbRow, nbCol, alignmentNeeded))
+                        {
+                            return (x, y);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public (int X, int Y)? GetSuggestion(Player currentPlayer, Player opponent, int nbRow, int nbCol)
+        {
+            var checkmateMove = FindCorrectMove(currentPlayer, opponent, nbRow, nbCol, 4);
+            if (checkmateMove.HasValue)
+            {
+                suggestedMove = checkmateMove;
+                return checkmateMove;
+            }
+
+            // First priority: Check if opponent is about to win (has 4 aligned)
+            var blockingMove = FindCorrectMove(opponent, currentPlayer, nbRow, nbCol, 4);
+            if (blockingMove.HasValue)
+            {
+                suggestedMove = blockingMove;
+                return blockingMove;
+            }
+
+            // Second priority: Check if we can win (get 3 aligned)
+            var winningMove = FindCorrectMove(currentPlayer, opponent, nbRow, nbCol, 3);
+            if (winningMove.HasValue)
+            {
+                suggestedMove = winningMove;
+                return winningMove;
+            }
+
+            return null;
+        }

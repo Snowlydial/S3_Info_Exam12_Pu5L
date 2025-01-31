@@ -1,0 +1,81 @@
+Puissance 5, turn-based game
+=> Players have to align 5 points to win
+=> Players can align points horizontally, vertically or diagonally
+=> Players can only place one point at a time
+
+Gimmick:
+Buttons that suggest for each player (takes the player turn if used)
+=> switch btw two modes
+	- Strat mode: suggest the best move and only works if YOU have 3 points or more aligned
+	- Defensive mode: if the opponent has 4 points aligned, suggest the best move to block him (suggest even if it is checkmate for you in their next move)
+		=> Prioritize defense to strat mode (EXCEPTION: YOU have 4 points aligned and it is your turn, then suggest the best move to win)
+
+To Do:
+(ok)- Grid of MxN dimension (M and N have to be > 5)
+	(ok)=> M and N have to be chosen by the player
+(ok)- Click on intersection of the grid to place a point
+	(ok)=> Must keep track of the player's turn
+	(ok)=> Must keep track of the points placed by each player
+		(ok)=> Must keep track of all available points
+		(ok)=> If the intersection is already taken, the player can't place a point
+(ok)- Verification of the alignment of 5 points
+	(ok)=> Performs a check after each placement (count points aligned)
+		(ok)=> Check horizontally
+		(ok)=> Check vertically
+		(ok)=> Check diagonally
+	(ok-ish?)=> If alignment is found, the game ends, the line is highlighted and the winner is announced
+
+(ok)- Gimmicks implementation:
+	(ok)=> The button switch between strat and defensive mode (depending on the game states, ex: opponents about to win == someone has 4 points aligned)
+	(ok)=> Suggest the best move for the currentPlayer
+		(ok)=> checks if the player has 3 points aligned
+		(abort)=> if there are multiple possibilities, then choose whichever you want
+	(ok)=> Suggest the best move to block the opponent
+		(ok)=> checks if the opponent has 4 points aligned
+		(abort)=> if there are multiple possibilities, then choose whichever you want (even if it may not stop them, ex: the two ends of their line isn't occupied yet so placing on one or the other won't stop them)
+
+(ok)- What they asked for:
+	(ok)- Save
+		What to save
+		- players.name
+		- players.points
+		- players.score
+		- players.id
+		- players.color
+
+	(ok)- Load
+		Choose file
+		Read file
+			read player.whatHaveBeenSaved
+		Paint players.points
+
+	(ok)Alea:
+		limit nb point
+			10 per player
+
+
+
+- Exam12: Points in L now
+	- Revisit alignement of 3 and 4
+		- 3
+			+ can be an angle
+				=> check 2 aligned
+				=> check at least one point on either horiz sides of starting and ending points
+		- 4
+			+ can be an angle
+				=> check 3 aligned
+				=> store those 3, check at least one point on either horiz sides of starting and ending points
+	- only horiz + vertic
+		- possible forms:
+			4 aligned + 1 side
+			3 aligned + 2 side
+		
+		- get suggestion still works
+			- at 3 aligned, it suggests/place the 4th point
+			- at 3 aligned + 1 side (aka, 4 points)
+				p1: block either the 3 aligned or the lonely side
+				p2: place either on the --X--X--
+			- at 4 aligned
+				p1: block one of the side to unable the L shape
+				p2: suggest one of the side of the starting or ending aligned point
+
