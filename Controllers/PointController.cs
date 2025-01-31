@@ -145,7 +145,7 @@ namespace Exam12_Pu5L.Controllers
 
 
         //-----------SUGGESTION
-        public (int X, int Y)? FindCorrectMoveOld(Player you, Player opponent, int nbRow, int nbCol, int alignmentNeeded)
+        public (int X, int Y)? FindCorrectMove(Player you, Player opponent, int nbRow, int nbCol, int alignmentNeeded)
         {
             alignmentNeeded += 1;
             // Check each empty cell on the grid
@@ -165,7 +165,7 @@ namespace Exam12_Pu5L.Controllers
             return null;
         }
 
-        public (int X, int Y)? GetSuggestionOld(Player currentPlayer, Player opponent, int nbRow, int nbCol)
+        public (int X, int Y)? GetSuggestion(Player currentPlayer, Player opponent, int nbRow, int nbCol)
         {
             var checkmateMove = FindCorrectMove(currentPlayer, opponent, nbRow, nbCol, 4);
             if (checkmateMove.HasValue)
@@ -425,7 +425,7 @@ namespace Exam12_Pu5L.Controllers
         }
 
         //-----------SUGGESTION
-        public (int X, int Y)? FindCorrectMove(Player you, Player opponent, int nbRow, int nbCol, int alignmentNeeded)
+        public (int X, int Y)? FindCorrectMovel(Player you, Player opponent, int nbRow, int nbCol, int alignmentNeeded)
         {
             alignmentNeeded += 1;
             // Check each empty cell on the grid
@@ -445,7 +445,7 @@ namespace Exam12_Pu5L.Controllers
             return null;
         }
 
-        public (int X, int Y)? GetSuggestion(Player currentPlayer, Player opponent, int nbRow, int nbCol)
+        public (int X, int Y)? GetSuggestionl(Player currentPlayer, Player opponent, int nbRow, int nbCol)
         {
             // First priority: Check if we can win (complete an L-shape of 5 points)
             var winningMove = FindCorrectMove(currentPlayer, opponent, nbRow, nbCol, 4);
